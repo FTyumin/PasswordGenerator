@@ -1,15 +1,21 @@
 import PySimpleGUI as sg
 import string
-import random
+import secrets
 
 
-def get_random_string(length):
-    if length=='':
-        return "Enter a number"
-    else:
-        letters = string.ascii_lowercase
-        result_str = ''.join(random.choice(letters) for i in range(length))
-        return result_str
+
+def generate_password(pwd_length):
+    letters = string.ascii_letters
+    digits = string.digits
+    special_chars = string.punctuation
+
+    alphabet = letters + digits + special_chars
+
+    pwd = ''
+    for i in range(pwd_length):
+        pwd += ''.join(secrets.choice(alphabet))
+
+    return pwd
 
 
 
@@ -33,7 +39,7 @@ while True:
     elif not output.isdigit():
         window['-OUTPUT-'].update("Type a number")
     else:
-        input = get_random_string(int(output))
+        input = generate_password(int(output))
         window['-OUTPUT-'].update(input)
 
 
