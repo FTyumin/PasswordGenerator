@@ -69,9 +69,9 @@ while True:
         input = generate_password(output, 3)  # only letters
     elif values['digit'] and values['char']:
         input = generate_password(output)
-    elif ['digit']:
+    elif ['digit'] and not values['char']:
         input = generate_password(output, 1)
-    elif ['char']:
+    elif ['char'] and not values['digit']:
         input = generate_password(output, 2)
 
     window['-OUTPUT-'].update(input)
