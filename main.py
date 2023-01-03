@@ -28,8 +28,10 @@ def generate_password(pwd_length, option=0):
     return pwd
 
 
+sg.theme('LightGrey5')
+
 layout = [
-    [sg.Text('Length:', font='Helvetica 15'), sg.Input()],
+    [sg.Text('Length:', font='Helvetica 15',), sg.Input()],
     [sg.Checkbox('Add digits', key='digit', default=True)],
     [sg.Checkbox('Add symbols', key='char', default=True)],
     [sg.Button('Generate'), sg.Button('Exit')],
@@ -51,22 +53,15 @@ while True:
         window['-OUTPUT-'].update("Please enter a valid integer")
         continue
 
-
-
-
-
-
-
-
     if not values['digit'] and not values['char']:
-        input = generate_password(output, 3)  # only letters
+        password = generate_password(output, 3)  # only letters
     elif values['digit'] and values['char']:
-        input = generate_password(output)
+        password = generate_password(output)
     elif ['digit'] and not values['char']:
-        input = generate_password(output, 1)
+        password = generate_password(output, 1)
     elif ['char'] and not values['digit']:
-        input = generate_password(output, 2)
+        password = generate_password(output, 2)
 
-    window['-OUTPUT-'].update(input)
+    window['-OUTPUT-'].update(password)
 
 window.Close()
