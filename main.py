@@ -45,25 +45,18 @@ while True:
 
     output = values[0]
 
-    if output == '':
-        window['-OUTPUT-'].update("Type a number")
-    elif not output.isdigit():
-        window['-OUTPUT-'].update("Type a number")
+    try:
+        output = int(values[0])
+    except ValueError:
+        window['-OUTPUT-'].update("Please enter a valid integer")
         continue
 
-    output = int(values[0])
-    # input = generate_password(output, 3)
-    # window['-OUTPUT-'].update(input)
 
-    # if window['digit']:
-    #     input = generate_password(output, 1)
-    #     window['-OUTPUT-'].update(input)
-    # elif window['char']:
-    #     input = generate_password(output, 2)
-    #     window['-OUTPUT-'].update(input)
-    # elif window['char'] and window['digit']:
-    #     input = generate_password(output)
-    #     window['-OUTPUT-'].update(input)
+
+
+
+
+
 
     if not values['digit'] and not values['char']:
         input = generate_password(output, 3)  # only letters
