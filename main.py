@@ -31,11 +31,12 @@ def generate_password(pwd_length, option=0):
 sg.theme('LightGrey5')
 
 layout = [
-    [sg.Text('Length:', font='Helvetica 15',), sg.Input()],
+    [sg.Text('Length:', font='Helvetica 15', ), sg.Input()],
     [sg.Checkbox('Add digits', key='digit', default=True)],
     [sg.Checkbox('Add symbols', key='char', default=True)],
     [sg.Button('Generate'), sg.Button('Exit')],
     [sg.Text(size=(30, 3), key='-OUTPUT-', font='Helvetica 20')],
+    [sg.Button('Copy to clipboard')]
 ]
 
 window = sg.Window('Password generator', element_justification='c').Layout(layout)
@@ -53,8 +54,8 @@ while True:
         window['-OUTPUT-'].update("Please enter a valid integer")
         continue
 
-    if not values['digit'] and not values['char']:
-        password = generate_password(output, 3)  # only letters
+    if not values['digit'] and not values['char']:  # letters only
+        password = generate_password(output, 3)
     elif values['digit'] and values['char']:
         password = generate_password(output)
     elif ['digit'] and not values['char']:
@@ -63,5 +64,8 @@ while True:
         password = generate_password(output, 2)
 
     window['-OUTPUT-'].update(password)
+
+    if event == 'Copy to clipboard':  # copying password to clipboard
+        sg.copy_to_clipboard(password)
 
 window.Close()
