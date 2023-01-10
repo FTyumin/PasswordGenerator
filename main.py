@@ -4,28 +4,11 @@ import secrets
 import pyperclip
 
 
-def generate_password(pwd_length, option=0):
-    letters = string.ascii_letters
-    digits = string.digits
-    special_chars = string.punctuation
-
-    alphabet = letters + digits + special_chars
-    option1 = letters + digits
-    option2 = letters + special_chars
-
+def generate_password(pwd_length, alphabet):
     pwd = ''
-    if option == 0:
-        for i in range(pwd_length):
-            pwd += ''.join(secrets.choice(alphabet))
-    elif option == 1:
-        for i in range(pwd_length):
-            pwd += ''.join(secrets.choice(option1))
-    elif option == 2:
-        for i in range(pwd_length):
-            pwd += ''.join(secrets.choice(option2))
-    elif option == 3:
-        for i in range(pwd_length):
-            pwd += ''.join(secrets.choice(letters))
+    for i in range(pwd_length):
+        pwd += ''.join(secrets.choice(alphabet))
+
     return pwd
 
 
@@ -69,6 +52,8 @@ layout = [
     [sg.Text('Length:', font='Helvetica 15', ), sg.Input(key='-INPUT-')],
     [sg.Checkbox('Add digits', key='digit', default=True)],
     [sg.Checkbox('Add symbols', key='char', default=True)],
+    [sg.Checkbox('Add lowercase', key='lowercase', default=True)],
+    [sg.Checkbox('Add uppercase', key='uppercase', default=True)],
     [sg.Slider(range=(0, 30), default_value=(25, 75), orientation='h', size=(20, 20), key='-SLIDER-')],
     [sg.Button('Generate'), sg.Button('Exit')],
     [sg.Text(size=(30, 3), key='-OUTPUT-', font='Helvetica 20')],
@@ -83,7 +68,6 @@ while True:
     if event in (None, 'Exit'):
         break
 
-
     try:
         output = int(values['-INPUT-'])
     except ValueError:
@@ -93,15 +77,19 @@ while True:
     value = int(values['-INPUT-'])
     window['-SLIDER-'].Update(value)
 
+    selected_characters = []
+
     if event == 'Generate':
-        if not values['digit'] and not values['char']:  # letters only
-            password = generate_password(output, 3)
-        elif values['digit'] and values['char']:
-            password = generate_password(output)
-        elif ['digit'] and not values['char']:
-            password = generate_password(output, 1)
-        elif ['char'] and not values['digit']:
-            password = generate_password(output, 2)
+        if values['digit']:
+            selected_characters += string.digits
+        if values['char']:
+            selected_characters += string.punctuation
+        if values['lowercase']:
+            selected_characters += string.ascii_lowercase
+        if values['uppercase']:
+            selected_characters += string.ascii_uppercase
+
+        password = generate_password(output, selected_characters)
 
         # when password is generated, strength of the password is shown
         password_strength = pass_strength(password)
