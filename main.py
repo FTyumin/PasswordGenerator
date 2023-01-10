@@ -69,11 +69,11 @@ layout = [
     [sg.Text('Length:', font='Helvetica 15', ), sg.Input(key='-INPUT-')],
     [sg.Checkbox('Add digits', key='digit', default=True)],
     [sg.Checkbox('Add symbols', key='char', default=True)],
-    [sg.Slider(range=(0, 30), default_value=(25, 75), orientation='h', size=(20, 20),key='-SLIDER-')],
+    [sg.Slider(range=(0, 30), default_value=(25, 75), orientation='h', size=(20, 20), key='-SLIDER-')],
     [sg.Button('Generate'), sg.Button('Exit')],
     [sg.Text(size=(30, 3), key='-OUTPUT-', font='Helvetica 20')],
-    [sg.Button('Copy to Clipboard', visible=False, key='copy_button')],
-    [sg.Text("Password strength", visible=False, size=(30, 3), key='-OUTPUT2-', font='Helvetica 15')]
+    [sg.Button('Copy to Clipboard', visible=False, size=(30, 3), key='copy_button')],
+    [sg.Text("Password strength", visible=False, size=(25, 3), key='-OUTPUT2-', font='Helvetica 15')]
 ]
 
 window = sg.Window('Password generator', element_justification='c').Layout(layout)
@@ -83,7 +83,6 @@ while True:
     if event in (None, 'Exit'):
         break
 
-    output = values['-INPUT-']
 
     try:
         output = int(values['-INPUT-'])
@@ -106,7 +105,7 @@ while True:
 
         # when password is generated, strength of the password is shown
         password_strength = pass_strength(password)
-        window['-OUTPUT2-'].update("Password strength: " + password_strength,visible=True)
+        window['-OUTPUT2-'].update("Password strength: " + password_strength, visible=True)
 
     window['-OUTPUT-'].update(password)
 
